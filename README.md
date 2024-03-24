@@ -3,6 +3,7 @@
 ## 사용 패키지
 ```
 Vuestic UI : UI의 디자인이 따로 없어서 디자인을위한 프레임워크
+material-design-icons-iconfont: icon 사용 목적
 ```
 
 ## 요구 사항
