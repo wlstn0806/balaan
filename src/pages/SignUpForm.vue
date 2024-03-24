@@ -99,7 +99,7 @@
               </VaButton>
             </template>
             <template v-else #controls="{ }">
-              <VaButton @click="signUp()">
+              <VaButton @click="showModal = true">
                 완료
               </VaButton>
             </template>
@@ -107,6 +107,19 @@
         </VaForm>
       </VaCardContent>
     </VaCard>
+
+    <VaModal
+      v-model="showModal"
+      hide-default-actions
+      overlay-opacity="0.2"
+    >
+      <template #header>
+        <h3>회원가입이 완료되었습니다. 초기폐이지로 돌아갑니다.</h3>
+      </template>
+      <template #footer>
+        <VaButton @click="signUp()"> 확인 </VaButton>
+      </template>
+    </VaModal>
   </div>
 </template>
 
@@ -114,7 +127,9 @@
 import { ref } from 'vue';
 import { useForm, defineVaStepperSteps } from 'vuestic-ui'
 
-const currentStep = ref(2);
+const showModal = ref(false);
+
+const currentStep = ref(0);
 
 const userInfo = ref({
   email: '',
@@ -144,12 +159,32 @@ const steps = ref(defineVaStepperSteps([
       step.hasError = !validate()
     },
   },
-  { label: '배송지입력', beforeLeave: (step) => { step.hasError = !validate() } },
-  { label: '회원정보입력', beforeLeave: (step) => { step.hasError = !validate() } },
-  { label: '회원가입완료', beforeLeave: (step) => { step.hasError = !validate() } },
+  { label: '배송지 입력', beforeLeave: (step) => { step.hasError = !validate() } },
+  { label: '회원 정보 입력', beforeLeave: (step) => { step.hasError = !validate() } },
+  { label: '회원 가입 정보확인', beforeLeave: (step) => { step.hasError = !validate() } },
 ]))
 const signUp = () => {
-  alert(123)
+  userInfo.value = {
+    email: '',
+    passward: '',
+    checkPassward:''
+  }
+  shopInfo.value = {
+    name: '',
+    tell: '',
+    address: '',
+    detailAddress: ''
+  }
+
+  payInfo.value = {
+    card1:'',
+    card2:'',
+    card3:'',
+    card4:'',
+  }
+
+  showModal.value = false
+  currentStep.value = 0
 }
 
 const checkValue = (type) => {
