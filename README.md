@@ -1,24 +1,21 @@
 # balaan
 
-## Project setup
+## 사용 패키지
+```
+Vuestic UI : UI의 디자인이 따로 없어서 디자인을위한 프레임워크
+```
+
+## 프로젝트 설정
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 프로젝트 실행
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### 프로젝트 빌드
 ```
 npm run build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
