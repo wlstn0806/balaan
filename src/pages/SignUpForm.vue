@@ -125,7 +125,26 @@
                 </div>
             </template>
             <template #step-content-3>
-              회원 가입이 완료되었습니다.
+
+              <div>
+                이름: {{ shopInfo.name }}
+              </div>
+              <div>
+                연락처: {{ shopInfo.tell }}
+              </div>
+              <div>
+                이메일: {{ userInfo.email }}
+              </div>
+              <div>
+                주소: {{ `(${shopInfo.postNumber})${shopInfo.address} ${shopInfo.detailAddress} ${shopInfo.alsoAddress}` }}
+              </div>
+              <div>
+                카드번호: {{ `${payInfo.card1}-${payInfo.card2}-${payInfo.card3}-${payInfo.card4}`}}
+              </div>
+              <br>
+              <div>
+                입력 하신 정보로 회원가입합니다.
+              </div>
             </template>
             <template v-if="currentStep !== 3" #controls="{ nextStep, prevStep }">
               <VaButton :disabled="currentStep === 0" @click="prevStep()">
@@ -166,7 +185,7 @@ import { useForm, defineVaStepperSteps } from 'vuestic-ui'
 
 const showModal = ref(false);
 
-const currentStep = ref(0);
+const currentStep = ref(3);
 
 const userInfo = ref({
   email: '',
