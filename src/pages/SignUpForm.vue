@@ -17,7 +17,7 @@
                 v-model="userInfo.email"
                 label="이메일"
                 :rules="[
-                  checkValue('eamil') || '이메일 주소를 확인해주세요.'
+                  checkValue('email') || '이메일 주소를 확인해주세요.'
                 ]"
                 required-mark
                 placeholder="이메일"
@@ -122,7 +122,7 @@
               <VaButton :disabled="currentStep === 0" @click="prevStep()">
                 이전
               </VaButton>
-              <VaButton :disabled="!isValid" @click="nextStep()">
+              <VaButton @click="nextStep()">
                 {{ currentStep === 2 ? '완료':'다음' }}
               </VaButton>
             </template>
@@ -157,7 +157,7 @@ import { useForm, defineVaStepperSteps } from 'vuestic-ui'
 
 const showModal = ref(false);
 
-const currentStep = ref(1);
+const currentStep = ref(0);
 
 const userInfo = ref({
   email: '',
@@ -220,17 +220,29 @@ const signUp = () => {
 }
 
 const checkValue = (type) => {
-  let ck = false;
+  let ck = true;
+  let reg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   switch(type) {
     case 'email':
+      ck = reg.test(userInfo.value.email)
       break;
     case 'pw':
+      reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/
+      ck = reg.test(userInfo.value.passward)
       break;
     case 'chackpw':
+      reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/
+      ck = reg.test(userInfo.value.passward) && userInfo.value.passward === userInfo.value.checkPassward
       break;
     case 'name':
+      reg = /^[\uAC00-\uD7AF]{2,}$|^[a-zA-Z]{3,}$/
+      ck = reg.test(shopInfo.value.name)
       break;
     case 'card':
+      break;
+    case 'tell':
+      reg = /^(010)(-| )?\d{3,4}(-| )?\d{4}$/
+      ck = reg.test(shopInfo.value.tell)
       break;
   }
   return ck
