@@ -93,26 +93,35 @@
                     label="카드번호"
                     maxlength="4"
                     required-mark=""
+                    :error="!checkValue('card')"
                     :rules="[(value) => (value && value.length > 0),checkValue('card')]"
                   />
                   <VaInput
                     style="width:24%"
                     v-model="payInfo.card2"
                     maxlength="4"
+                    :error="!checkValue('card')"
                     :rules="[(value) => (value && value.length > 0),checkValue('card')]"
                   />
                   <VaInput
                     style="width:24%"
                     v-model="payInfo.card3"
                     maxlength="4"
+                    :error="!checkValue('card')"
                     :rules="[(value) => (value && value.length > 0),checkValue('card')]"
                   />
                   <VaInput
                     style="width:25%"
                     v-model="payInfo.card4"
                     maxlength="4"
+                    :error="!checkValue('card')"
                     :rules="[(value) => (value && value.length > 0),checkValue('card')]"
                   />
+                </div>
+                <div v-if="!checkValue('card')" class="va-message-list" id="message-list-71" role="alert" style="color: rgb(228, 34, 34);">
+                  <ul class="va-message-list__list">
+                    <li class="va-message-list__message">카드번호를 확인해주세요.</li>
+                  </ul>
                 </div>
             </template>
             <template #step-content-3>
@@ -222,6 +231,7 @@ const signUp = () => {
 const checkValue = (type) => {
   let ck = true;
   let reg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+  const cardNum = `${payInfo.value.card1}${payInfo.value.card2}${payInfo.value.card3}${payInfo.value.card4}`
   switch(type) {
     case 'email':
       ck = reg.test(userInfo.value.email)
@@ -239,6 +249,22 @@ const checkValue = (type) => {
       ck = reg.test(shopInfo.value.name)
       break;
     case 'card':
+      if (/^\d{16}$/.test(cardNum)) {
+        let sum = 0;
+        [...cardNum].forEach((num,idx) => {
+          let digit = Number(num);
+          if ((idx + 1) % 2 === 0) {
+            digit *= 2;
+            if (digit >= 10) {
+              digit = Math.floor(digit / 10) + digit % 10;
+            }
+          }
+          sum += digit;
+        })
+        return sum % 10 === 0;
+      } else {
+        ck = false;
+      }
       break;
     case 'tell':
       reg = /^(010)(-| )?\d{3,4}(-| )?\d{4}$/
