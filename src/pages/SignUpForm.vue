@@ -185,7 +185,7 @@ import { useForm, defineVaStepperSteps } from 'vuestic-ui'
 
 const showModal = ref(false);
 
-const currentStep = ref(3);
+const currentStep = ref(0);
 
 const userInfo = ref({
   email: '',
